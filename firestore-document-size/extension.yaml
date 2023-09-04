@@ -1,0 +1,164 @@
+name: firestore-document-size
+version: 0.0.1
+specVersion: v1beta
+displayName: Firestore Document Size
+
+description: >-
+  Creates a key-value pair in a specified Realtime Database location, each time
+  a new document is added in a specified Firestore collection. The key is represented
+  by the document ID while the value is the size of the Firestore document in bytes.
+  On document update/delete the value is updated or the record is deleted.
+
+icon: icon.png
+
+license: Apache-2.0
+sourceUrl: https://github.com/alexmamo/firebase-extensions/firestore-document-size
+
+author:
+  authorName: Alex Mamo
+  email: alexmamo@gmail.com
+  url: https://github.com/alexmamo/firebase-extensions
+
+billingRequired: true
+
+roles:
+  - role: firebasedatabase.admin
+    reason: Allows this extension to write data to the Realtime Database.
+  - role: datastore.user
+    reason: Allows this extension to read data in Cloud Firestore.
+
+resources:
+  - name: onDocumentCreate
+    type: firebaseextensions.v1beta.function
+    description: >-
+      A function that is triggered when a new document is created in Firestore.
+    properties:
+      location: ${LOCATION}
+      eventTrigger: 
+        eventType: providers/cloud.firestore/eventTypes/document.create
+        resource: projects/${PROJECT_ID}/databases/(default)/documents/${param:FIRESTORE_COLLECTION_REFERENCE}/{docId}
+      runtime: "nodejs18"
+
+  - name: onDocumentUpdate
+    type: firebaseextensions.v1beta.function
+    description: >-
+      A function that is triggered when a new document is updated in Firestore.
+    properties:
+      location: ${LOCATION}
+      eventTrigger: 
+        eventType: providers/cloud.firestore/eventTypes/document.update
+        resource: projects/${PROJECT_ID}/databases/(default)/documents/${param:FIRESTORE_COLLECTION_REFERENCE}/{docId}
+      runtime: "nodejs18"
+
+  - name: onDocumentDelete
+    type: firebaseextensions.v1beta.function
+    description: >-
+      A function that is triggered when a document is deleted from Firestore.
+    properties:
+      location: ${LOCATION}
+      eventTrigger: 
+        eventType: providers/cloud.firestore/eventTypes/document.delete
+        resource: projects/${PROJECT_ID}/databases/(default)/documents/${param:FIRESTORE_COLLECTION_REFERENCE}/{docId}
+      runtime: "nodejs18"
+
+  - name: doBackfillExistingDocuments
+    type: firebaseextensions.v1beta.function
+    description: >-
+      A function that is triggered right after the extension installation is complete.
+      If the instance is configured to do so, it will calculate the size of all documents
+      that exist in the specified Firestore collection.
+    properties:
+      runtime: "nodejs18"
+      location: ${param:LOCATION}
+      taskQueueTrigger: {}
+
+params:
+  - param: FIRESTORE_COLLECTION_REFERENCE
+    label: Firestore Collection Reference
+    description: >-
+      Where do you want to watch for document sizes?
+    type: string
+    # validationRegex: ^[^/]{1,1500}$
+    # validationErrorMessage: Firestore path cannot contain / (slash).
+    required: true
+    immutable: false
+
+  - param: REALTIME_DATABASE_NODE_REFERENCE
+    label: Realtime Database Node Reference
+    description: >-
+      Where do you want to store the document sizes?
+    type: string
+    # validationRegex: ^[^.$#\[\]/]+$
+    # validationErrorMessage: Realtime Database path cannot contain . (dot), $ (dollar sign), //# (hash), [] (brackets), or / (slash).
+    required: true
+    immutable: false
+
+  - param: BACKFILL_EXISTING_DOCUMENTS
+    label: Backfill existing documents
+    description: >-
+      If you enable this option, the extension will calculate the size of all
+      existing documents right after installation is complete.
+    type: select
+    options:
+      - label: Yes
+        value: true
+      - label: No
+        value: false
+    default: true
+    required: true
+
+  - param: LOCATION
+    label: Cloud Functions location
+    description: >-
+      Where do you want to deploy the functions created for this extension?
+      For help selecting a location, refer to the [location selection
+      guide](https://firebase.google.com/docs/functions/locations).
+    type: select
+    options:
+      - label: Iowa (us-central1)
+        value: us-central1
+      - label: South Carolina (us-east1)
+        value: us-east1
+      - label: Northern Virginia (us-east4)
+        value: us-east4
+      - label: Los Angeles (us-west2)
+        value: us-west2
+      - label: Salt Lake City (us-west3)
+        value: us-west3
+      - label: Las Vegas (us-west4)
+        value: us-west4
+      - label: Warsaw (europe-central2)
+        value: europe-central2
+      - label: Belgium (europe-west1)
+        value: europe-west1
+      - label: London (europe-west2)
+        value: europe-west2
+      - label: Frankfurt (europe-west3)
+        value: europe-west3
+      - label: Zurich (europe-west6)
+        value: europe-west6
+      - label: Hong Kong (asia-east2)
+        value: asia-east2
+      - label: Tokyo (asia-northeast1)
+        value: asia-northeast1
+      - label: Osaka (asia-northeast2)
+        value: asia-northeast2
+      - label: Seoul (asia-northeast3)
+        value: asia-northeast3
+      - label: Mumbai (asia-south1)
+        value: asia-south1
+      - label: Jakarta (asia-southeast2)
+        value: asia-southeast2
+      - label: Montreal (northamerica-northeast1)
+        value: northamerica-northeast1
+      - label: Sao Paulo (southamerica-east1)
+        value: southamerica-east1
+      - label: Sydney (australia-southeast1)
+        value: australia-southeast1
+    required: true
+    immutable: true
+
+lifecycleEvents:
+  onInstall:
+    function: doBackfillExistingDocuments
+    processingMessage: Calculating the sizes for all existing Firestore documents...
