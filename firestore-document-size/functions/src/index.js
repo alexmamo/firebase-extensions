@@ -86,8 +86,8 @@ exports.doBackfillExistingDocuments = tasks
 
       const processed = await Promise.allSettled(
           querySnapshot.docs.map(async (doc) => {
-            const doctId = doc.id;
-            const docIdRef = getDatabase().ref().child(NODE_REF).child(doctId);
+            const docId = doc.id;
+            const docIdRef = getDatabase().ref().child(NODE_REF).child(docId);
             const snapshot = await docIdRef.get();
             if (!snapshot.exists()) {
               const docSize = getDocumentSize(doc);

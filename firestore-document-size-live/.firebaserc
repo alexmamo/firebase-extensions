@@ -1,0 +1,13 @@
+{
+  "projects": {
+    "default": "fir-app-e956f"
+  },
+  "targets": {},
+  "etags": {
+    "fir-app-e956f": {
+      "extensionInstances": {
+        "firestore-document-size": "b649f9ae9af63a7a6e269d2f3f5fd21ba62b17a1b5b25faa84b2a70374ca9761"
+      }
+    }
+  }
+}
