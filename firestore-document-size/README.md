@@ -1,6 +1,6 @@
 # Firestore Document Size
 
-**Author**: Alex Mamo (**[github.com/alexmamo](https://github.com/alexmamo)**)
+**Author**: Alex Mamo (**[github.com/alexmamo][1]**)
 
 **Description**: Calculates the size of a Firestore document whenever a new document is created or updated in a specific collection.
 
@@ -14,11 +14,11 @@ Additionally, this extension can be set to backfill existing documents in a spec
 
 ## 🧩 Installation
 
-To install the Extension, please follow the steps that are presented on the [Install a Firebase Extension](https://firebase.google.com/docs/extensions/install-extensions) page. In short, do one of the following:
+To install the Extension, please follow the steps that are presented on the [Install a Firebase Extension][2] page. In short, do one of the following:
 
 - **To install the Extension from the Firebase Console**, please click the button below:
 
-  [![install-extension](https://i.ibb.co/XWtkZTV/intall-firebase-extension-button.png)](https://console.firebase.google.com/project/_/extensions/install?ref=alex-mamo/firestore-document-size)
+  [![install-extension][3]][4]
 
 - **Install from the Firebase CLI**, please run the following command:
 
@@ -34,3 +34,8 @@ To install the Extension, please follow the steps that are presented on the [Ins
 | Realtime Database path         | The path of a node in the Realtime Database where you want to save the document sizes.                                   |
 | Backfill existing documents    | If you enable this option, the extension will calculate the size of all documents that exist in the selected collection. |
 | Cloud Functions location       | The location where you want to deploy the functions created for this extension.                                          |
+
+[1]: https://github.com/alexmamo
+[2]: https://firebase.google.com/docs/extensions/install-extensions
+[3]: https://i.ibb.co/XWtkZTV/intall-firebase-extension-button.png
+[4]: https://console.firebase.google.com/project/_/extensions/install?ref=alex-mamo/firestore-document-size
