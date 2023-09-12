@@ -7,7 +7,8 @@ description: >-
   Creates a key-value pair in a specified Realtime Database location, each time
   a new document is added in a specified Firestore collection. The key is represented
   by the document ID while the value is the size of the Firestore document in bytes.
-  On document update/delete the value is updated or the record is deleted.
+  On document update the value is updated with the new document size.
+  On document delete the record is deleted from Realtime Database.
 
 icon: icon.png
 
@@ -25,7 +26,7 @@ roles:
   - role: firebasedatabase.admin
     reason: Allows this extension to write data to the Realtime Database.
   - role: datastore.user
-    reason: Allows this extension to read data in Cloud Firestore.
+    reason: Allows this extension to read data from Cloud Firestore.
 
 resources:
   - name: onDocumentCreate
@@ -78,18 +79,18 @@ params:
     description: >-
       Where do you want to watch for document sizes?
     type: string
-    # validationRegex: ^[^/]{1,1500}$
-    # validationErrorMessage: Firestore path cannot contain / (slash).
+    validationRegex: "^[^/]+$"
+    validationErrorMessage: Firestore path cannot contain / (slash).
     required: true
     immutable: false
 
-  - param: REALTIME_DATABASE_NODE_REFERENCE
-    label: Realtime Database Node Reference
+  - param: REALTIME_DATABASE_REFERENCE
+    label: Realtime Database Reference
     description: >-
       Where do you want to store the document sizes?
     type: string
-    # validationRegex: ^[^.$#\[\]/]+$
-    # validationErrorMessage: Realtime Database path cannot contain . (dot), $ (dollar sign), //# (hash), [] (brackets), or / (slash).
+    validationRegex: "^[^.$#\\[\\]/]+$"
+    validationErrorMessage: Realtime Database path cannot contain . (dot), $ (dollar sign), //# (hash), [] (brackets), or / (slash).
     required: true
     immutable: false
 

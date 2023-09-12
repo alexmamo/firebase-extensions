@@ -12,6 +12,7 @@ const {
   Timestamp,
   GeoPoint,
   DocumentReference,
+  FieldPath,
 } = require("firebase-admin/firestore");
 
 const {
@@ -28,9 +29,9 @@ const {
 
 const COLL_REF = process.env.FIRESTORE_COLLECTION_REFERENCE;
 const DOC_ID = "{docId}";
-const NODE_REF = process.env.REALTIME_DATABASE_NODE_REFERENCE;
+const NODE_REF = process.env.REALTIME_DATABASE_REFERENCE;
 const BACKFILL_EXISTING_DOCUMENTS = process.env.BACKFILL_EXISTING_DOCUMENTS;
-const DOCS_PER_BACKFILL = 2;
+const DOCS_PER_BACKFILL = 20;
 
 exports.onDocumentCreate = functions.firestore
     .document(COLL_REF + DOC_ID)
@@ -68,7 +69,7 @@ exports.doBackfillExistingDocuments = tasks
       const runtime = getExtensions().runtime();
 
       if (!BACKFILL_EXISTING_DOCUMENTS) {
-        return runtime.setProcessingState(
+        runtime.setProcessingState(
             "PROCESSING_COMPLETE",
             "The size of the documents inside the existing collection " +
             " weren't calculated because the parameter " +
@@ -81,6 +82,8 @@ exports.doBackfillExistingDocuments = tasks
 
       const querySnapshot = await getFirestore()
           .collection(COLL_REF)
+          .orderBy(FieldPath.documentId())
+          .offset(offset)
           .limit(DOCS_PER_BACKFILL)
           .get();
 
@@ -98,14 +101,14 @@ exports.doBackfillExistingDocuments = tasks
 
       if (processed.length == DOCS_PER_BACKFILL) {
         const queue = getFunctions().taskQueue(
-            "backfilldata",
+            "doBackfillExistingDocuments",
             process.env.EXT_INSTANCE_ID,
         );
-        return await queue.enqueue({
+        await queue.enqueue({
           offset: offset + DOCS_PER_BACKFILL,
         });
       } else {
-        return runtime
+        runtime
             .setProcessingState(
                 "PROCESSING_COMPLETE",
                 "Backfill complete.",
