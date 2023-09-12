@@ -16,7 +16,7 @@ Additionally, this extension can be set to backfill existing documents in a spec
 
 To install the Extension, please follow the steps that are presented on the [Install a Firebase Extension](https://firebase.google.com/docs/extensions/install-extensions) page. In short, do one of the following:
 
-- **To install the Extension from the Firebase Console:**, please click the button below:
+- **To install the Extension from the Firebase Console**, please click the button below:
 
   [![install-extension](https://i.ibb.co/XWtkZTV/intall-firebase-extension-button.png)](https://console.firebase.google.com/project/_/extensions/install?ref=alex-mamo/firestore-document-size)
 
