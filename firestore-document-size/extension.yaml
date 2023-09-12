@@ -13,7 +13,7 @@ description: >-
 icon: icon.png
 
 license: Apache-2.0
-sourceUrl: https://github.com/alexmamo/firebase-extensions/firestore-document-size
+sourceUrl: https://github.com/alexmamo/firebase-extensions/tree/main/firestore-document-size
 
 author:
   authorName: Alex Mamo
