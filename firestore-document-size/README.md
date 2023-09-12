@@ -20,4 +20,17 @@ To install the Extension, please follow the steps that are presented on the [Ins
 
   [![install-extension](https://i.ibb.co/XWtkZTV/intall-firebase-extension-button.png)](https://console.firebase.google.com/project/_/extensions/install?ref=alex-mamo/firestore-document-size)
 
-  
+- **Install from the Firebase CLI**, please run the following command:
+
+  ```
+  firebase ext:install alex-mamo/firestore-document-size --project=YOUR_PROJECT_ID
+  ```
+
+## 🛠️ Configuration Parameters
+
+| Name                           | Description                                                                                                              |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------ |
+| Firestore collection path      | A path that points to a Firestore collection that contains documents whose size you want to calculate.                   |
+| Realtime Database path         | The path in the Realtime Database where you want to save the document sizes.                                             |
+| Backfill existing documents    | If you enable this option, the extension will calculate the size of all documents that exist in the selected collection. |
+| Cloud Functions location       | The location where you want to deploy the functions created for this extension.                                          |
