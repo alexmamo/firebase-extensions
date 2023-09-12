@@ -8,13 +8,13 @@ This extension expects a database layout like the following example:
         |
         --- document fields
 
-When you create a new document, this extension calculates the size and adds a new record inside the Realtime Database in a layout that looks like this:
+When you create a new document, this Extension calculates the size of the document and adds a new key-value pair inside the Realtime Database in a layout that looks like this:
 
     data: {
       "docId": SIZE_IN_BYTES,
     }
 
-Remember, the name of the collection, as well as the name of the node in the Firebase Realtime Database, can be configured when you install the Extension.
+Remember, the name of the Firestore collection, as well as the name of the node in the Firebase Realtime Database, can be configured when you install the Extension.
 
 #### Additional setup
 
@@ -27,7 +27,7 @@ Be aware that during install, reconfigure, or update, the Extensions service doe
   - Whether Cloud Firestore, the Realtime Database, or Cloud Functions for Firebase are set up within your Firebase project.
   - Whether the specified database paths exist within Cloud Firestore or the Realtime Database.
 
-When triggered by an HTTP request, this extension responds with the calculation of the size of the document.
+When triggered by an HTTP request, this Extension responds with the calculation of the size of the document.
 
 # Billing
 
@@ -37,7 +37,7 @@ To install this extension, your project must be on the [Blaze (pay as you go) pl
 - Realtime Database
 - Cloud Functions
 
-If you choose to backfill the existing documents within a specific collection, you'll have to pay a number of writes that is equal to the number of documents that exist within that
+If you choose to backfill the existing documents within a specific collection, then you'll have to pay a number of reads that is equal to the number of documents that exist within that
 collection.
 
 When you use this Firebase Extensions, you're only charged for the underlying resources that you use. A paid-tier billing plan is only required if the extension uses a service that requires a paid-tier plan, for example calling a Google Cloud Platform API or making outbound network requests to non-Google services. All Firebase services offer a free tier of usage. [Learn more about Firebase billing][4].
