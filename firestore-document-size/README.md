@@ -30,7 +30,8 @@ To install the Extension, please follow the steps that are presented on the [Ins
 
 | Name                           | Description                                                                                                              |
 | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------ |
-| Firestore collection path      | A path that points to a Firestore collection that contains documents whose size you want to calculate.                   |
-| Realtime Database path         | The path in the Realtime Database where you want to save the document sizes.                                             |
+| Firestore collection path      | A path that points to a Firestore collection that contains documents you want to get the size of.                        |
+| Realtime Database path         | The path of a node in the Realtime Database where you want to save the document sizes.                                   |
 | Backfill existing documents    | If you enable this option, the extension will calculate the size of all documents that exist in the selected collection. |
 | Cloud Functions location       | The location where you want to deploy the functions created for this extension.                                          |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------ |
