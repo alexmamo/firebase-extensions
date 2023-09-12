@@ -4,11 +4,11 @@ You can test out this extension right away!
 
   1. Go to your [Cloud Firestore dashboard][1] in the Firebase console.
   2. Visit the Firestore collection that has the name you chose during the installation process. If it doesn't exist, don't worry, it will be created as soon as you create the first document.
-  3. Create a new document, preferably with the details that are explained in the official [document size calculation][2].
+  3. Create a new document, preferably with the details that are explained in the official [document size calculation][2]. Are you getting 147?
 
 # Using the extension
 
-We recommend adding the documents using add(), for example, `db.collection("data").add(obj)` because adding documents this way, will automatically assign unique document IDs. Learn more about reading and writing data for your platform (iOS, Android, or Web) in [Firestore documentation][3]. Are you getting 147?
+We recommend adding the documents using add(), for example, `db.collection("data").add(obj)` because adding documents this way, will automatically assign unique document IDs. Learn more about reading and writing data for your platform (iOS, Android, or Web) in [Firestore documentation][3].
 
 # Monitoring
 
