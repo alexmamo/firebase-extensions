@@ -38,7 +38,7 @@ To install this extension, your project must be on the [Blaze (pay as you go) pl
 - Cloud Functions
 
 If you choose to backfill the existing documents within a specific collection, then you'll have to pay a number of reads that is equal to the number of documents that exist within that
-collection.
+collection. The writes inside the Realtime Database are free of charge.
 
 When you use this Firebase Extensions, you're only charged for the underlying resources that you use. A paid-tier billing plan is only required if the extension uses a service that requires a paid-tier plan, for example calling a Google Cloud Platform API or making outbound network requests to non-Google services. All Firebase services offer a free tier of usage. [Learn more about Firebase billing][4].
 
