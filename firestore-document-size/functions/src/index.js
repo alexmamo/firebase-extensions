@@ -72,12 +72,13 @@ exports.doBackfillExistingDocuments = tasks
         runtime.setProcessingState(
             "PROCESSING_COMPLETE",
             "The size of the documents inside the existing collection " +
-            " weren't calculated because the parameter " +
+            " were not calculated because the parameter " +
             "<u>Backfill existing documents</u> was set to No. " +
             "If you want to calculate the size of the documents in the " +
             "existing collection, please reconfigure this instance.",
         );
       }
+
       const offset = data["offset"] !== undefined ? data["offset"] : 0;
 
       const querySnapshot = await getFirestore()
