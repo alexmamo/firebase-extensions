@@ -8,7 +8,7 @@ You can test out this extension right away!
 
 # Using the extension
 
-We recommend adding the documents using add(), for example, `db.collection("data").add(obj)` because adding documents this way, will automatically assign unique document IDs. Learn more about reading and writing data for your platform (iOS, Android, or Web) in [Firestore documentation][3].
+We recommend adding the documents using add(), for example, `db.collection("data").add(obj)` because adding documents this way, will automatically assign unique document IDs. Learn more about reading and writing data for your platform (iOS, Android, or Web) in [Firestore documentation][3]. Are you getting 147?
 
 # Monitoring
 
