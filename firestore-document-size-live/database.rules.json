@@ -1,7 +1,0 @@
-//https://www.epochconverter.com/
-{
-  "rules": {
-      ".read": "now < 1709889664000",  // 2024-3-8
-      ".write": "now < 1709889664000",  // 2024-3-8   
-  }
-}
