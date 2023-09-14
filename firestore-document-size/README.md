@@ -23,7 +23,7 @@ To install the Extension, please follow the steps that are presented on the [Ins
 - **Install from the Firebase CLI**, please run the following command:
 
   ```
-  firebase ext:install alex-mamo/firestore-document-size --project=YOUR_PROJECT_ID
+  firebase ext:install alexmamo/firestore-document-size --project=YOUR_PROJECT_ID
   ```
 
 ## 🛠️ Configuration Parameters
