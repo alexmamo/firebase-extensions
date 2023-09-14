@@ -38,4 +38,4 @@ To install the Extension, please follow the steps that are presented on the [Ins
 [1]: https://github.com/alexmamo
 [2]: https://firebase.google.com/docs/extensions/install-extensions
 [3]: https://i.ibb.co/XWtkZTV/intall-firebase-extension-button.png
-[4]: https://console.firebase.google.com/project/_/extensions/install?ref=alex-mamo/firestore-document-size
+[4]: https://console.firebase.google.com/project/_/extensions/install?ref=alexmamo/firestore-document-size

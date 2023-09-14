@@ -10,4 +10,4 @@ In the future, there will also be other extensions that will help you save time 
 
 [1]: https://github.com/alexmamo/firebase-extensions/tree/main/firestore-document-size
 [2]: https://i.ibb.co/XWtkZTV/intall-firebase-extension-button.png
-[3]: https://console.firebase.google.com/project/_/extensions/install?ref=alex-mamo/firestore-document-size
+[3]: https://console.firebase.google.com/project/_/extensions/install?ref=alexmamo/firestore-document-size
