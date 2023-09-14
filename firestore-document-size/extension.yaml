@@ -6,9 +6,9 @@ displayName: Firestore Document Size
 description: >-
   Creates a key-value pair in a specified Realtime Database location, each time
   a new document is added in a specified Firestore collection. The key is represented
-  by the document ID while the value is the size of the Firestore document in bytes.
-  On document update the value is updated with the new document size.
-  On document delete the record is deleted from Realtime Database.
+  by the document ID while the value is a number that represents the size of the
+  Firestore document in bytes. On document update the value is updated with the new
+  document size. On document delete the record is deleted from Realtime Database.
 
 icon: icon.png
 
@@ -62,7 +62,7 @@ resources:
         resource: projects/${PROJECT_ID}/databases/(default)/documents/${param:FIRESTORE_COLLECTION_REFERENCE}/{docId}
       runtime: "nodejs18"
 
-  - name: doBackfillExistingDocuments
+  - name: doBackfill
     type: firebaseextensions.v1beta.function
     description: >-
       A function that is triggered right after the extension installation is complete.
@@ -94,7 +94,7 @@ params:
     required: true
     immutable: false
 
-  - param: BACKFILL_EXISTING_DOCUMENTS
+  - param: DO_BACKFILL
     label: Backfill existing documents
     description: >-
       If you enable this option, the extension will calculate the size of all
@@ -161,5 +161,5 @@ params:
 
 lifecycleEvents:
   onInstall:
-    function: doBackfillExistingDocuments
+    function: doBackfill
     processingMessage: Calculating the sizes for all existing Firestore documents...

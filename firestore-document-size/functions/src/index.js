@@ -30,8 +30,9 @@ const {
 const COLL_REF = process.env.FIRESTORE_COLLECTION_REFERENCE;
 const DOC_ID = "{docId}";
 const NODE_REF = process.env.REALTIME_DATABASE_REFERENCE;
-const BACKFILL_EXISTING_DOCUMENTS = process.env.BACKFILL_EXISTING_DOCUMENTS;
+const DO_BACKFILL = process.env.DO_BACKFILL;
 const DOCS_PER_BACKFILL = 20;
+const OFFSET = "offset";
 
 exports.onDocumentCreate = functions.firestore
     .document(COLL_REF + DOC_ID)
@@ -63,23 +64,25 @@ exports.onDocumentDelete = functions.firestore
       await getDatabase().ref().child(NODE_REF).child(docId).remove();
     });
 
-exports.doBackfillExistingDocuments = tasks
+exports.doBackfill = tasks
     .taskQueue()
     .onDispatch(async (data) => {
       const runtime = getExtensions().runtime();
 
-      if (!BACKFILL_EXISTING_DOCUMENTS) {
-        runtime.setProcessingState(
+      const doBackfill = (DO_BACKFILL === true || DO_BACKFILL === "true");
+      if (!doBackfill) {
+        await runtime.setProcessingState(
             "PROCESSING_COMPLETE",
             "The size of the documents inside the existing collection " +
             " were not calculated because the parameter " +
-            "<u>Backfill existing documents</u> was set to No. " +
+            "\"Backfill existing documents\" was set to \"No\". " +
             "If you want to calculate the size of the documents in the " +
             "existing collection, please reconfigure this instance.",
         );
+        return;
       }
 
-      const offset = data["offset"] !== undefined ? data["offset"] : 0;
+      const offset = data[OFFSET] !== undefined ? data[OFFSET] : 0;
 
       const querySnapshot = await getFirestore()
           .collection(COLL_REF)
@@ -102,18 +105,17 @@ exports.doBackfillExistingDocuments = tasks
 
       if (processed.length == DOCS_PER_BACKFILL) {
         const queue = getFunctions().taskQueue(
-            "doBackfillExistingDocuments",
+            "doBackfill",
             process.env.EXT_INSTANCE_ID,
         );
         await queue.enqueue({
           offset: offset + DOCS_PER_BACKFILL,
         });
       } else {
-        runtime
-            .setProcessingState(
-                "PROCESSING_COMPLETE",
-                "Backfill complete.",
-            );
+        await runtime.setProcessingState(
+            "PROCESSING_COMPLETE",
+            "Backfill complete.",
+        );
       }
     });
 
