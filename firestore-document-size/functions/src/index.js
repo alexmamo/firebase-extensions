@@ -269,5 +269,5 @@ function getMapContentSize(mapContent) {
     const entrySize = getEntrySize(key, value);
     mapContentSize += entrySize;
   }
-  return documentNameSize + mapContentSize + DOCUMENT_DATA_ADDITIONAL_BYTES;
+  return mapContentSize;
 }
