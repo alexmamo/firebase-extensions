@@ -149,6 +149,17 @@ function getDocumentSize(doc) {
  * @return {int} The size of the document name.
  */
 function getDocumentNameSize(document) {
+  // Handle DocumentReference objects directly (they have _path but not ref)
+  if (document._path && !document.ref) {
+    const docPath = document._path.segments.join('/');
+    let documentNameSize = 0;
+    const names = docPath.split(SLASH);
+    for (const name of names) {
+      documentNameSize += name.length + ADDITIONAL_BYTE;
+    }
+    return documentNameSize + DOCUMENT_NAME_ADDITIONAL_BYTES;
+  }
+  
   const documentPath = document.ref.path;
   let documentNameSize = 0;
   const names = documentPath.split(SLASH);
@@ -218,8 +229,26 @@ function getEntryValueSize(obj) {
       propertyValueSize = TIMESTAMP_SIZE;
     } else if (obj instanceof GeoPoint) {
       propertyValueSize = GEO_POINT_SIZE;
-    } else if (obj instanceof DocumentReference) {
-      propertyValueSize = getDocumentNameSize(obj);
+    } else if (obj instanceof DocumentReference || 
+              (obj && typeof obj === 'object' && 
+               (('path' in obj) || ('_path' in obj)))) {
+      // Handle both standard DocumentReference and internal Firestore formats
+      if (obj._path && obj._path.segments) {
+        // Calculate size directly based on path segments
+        let size = 0;
+        for (const segment of obj._path.segments) {
+          size += segment.length + ADDITIONAL_BYTE;
+        }
+        propertyValueSize = size + DOCUMENT_NAME_ADDITIONAL_BYTES;
+      } else {
+        // Try using getDocumentNameSize but catch errors
+        try {
+          propertyValueSize = getDocumentNameSize(obj);
+        } catch (error) {
+          // Fallback to a reasonable estimate if there's an error
+          propertyValueSize = 50;
+        }
+      }
     } else if (!Array.isArray(obj)) {
       propertyValueSize = getMapContentSize(obj);
     }
@@ -248,8 +277,25 @@ function getArrayValue(array) {
         arrayValueSize += TIMESTAMP_SIZE;
       } else if (obj instanceof GeoPoint) {
         arrayValueSize += GEO_POINT_SIZE;
-      } else if (obj instanceof DocumentReference) {
-        arrayValueSize += getDocumentNameSize(obj);
+      } else if (obj instanceof DocumentReference || 
+                (obj && typeof obj === 'object' && 
+                 (('path' in obj) || ('_path' in obj)))) {
+        // Handle DocumentReference objects the same way as in getEntryValueSize
+        if (obj._path && obj._path.segments) {
+          // Calculate size directly based on path segments
+          let size = 0;
+          for (const segment of obj._path.segments) {
+            size += segment.length + ADDITIONAL_BYTE;
+          }
+          arrayValueSize += size + DOCUMENT_NAME_ADDITIONAL_BYTES;
+        } else {
+          try {
+            arrayValueSize += getDocumentNameSize(obj);
+          } catch (error) {
+            // Fallback to a reasonable estimate if there's an error
+            arrayValueSize += 50;
+          }
+        }
       } else if (!Array.isArray(obj)) {
         arrayValueSize += getMapContentSize(obj);
       }
